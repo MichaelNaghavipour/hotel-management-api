@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: 'tests/e2e',
-  reporter: 'list',
+  reporter: [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }]],
   timeout: 30000, // 30 seconds per test
   expect: {
     timeout: 5000, // 5 seconds for expect conditions

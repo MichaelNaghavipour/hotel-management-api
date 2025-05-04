@@ -8,6 +8,10 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  reporters: [
+    "default",
+    ["jest-junit", { outputDirectory: "jest-report", outputName: "junit.xml" }]
+  ],
 };
 
 export default config;

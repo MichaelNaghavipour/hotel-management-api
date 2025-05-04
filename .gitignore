@@ -1,5 +1,5 @@
 # Tests Results
-test-results/
+/test-results/
 
 # Node.js dependencies
 node_modules/
@@ -28,3 +28,7 @@ npm-debug.log*
 # OS files
 .DS_Store
 Thumbs.db
+
+# Test and coverage reports
+/playwright-report/
+/jest-report/
