@@ -1,4 +1,4 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: 'tests/e2e',
@@ -19,4 +19,10 @@ export default defineConfig({
     headless: true, // Always run headless in CI
   },
   workers: process.env.CI ? 2 : undefined, // Limit workers in CI for stability
+  projects: [
+    {
+      name: 'chrome',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
 }); 
