@@ -28,7 +28,7 @@ GET http://localhost:3000/health
 ## Run Unit Tests
 
 ```bash
-npm test
+npm test:unit
 ```
 
 ## Run E2E Tests (Playwright)
