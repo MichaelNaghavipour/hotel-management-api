@@ -17,7 +17,7 @@ export function createServer() {
 }
 
 export function startServer(app: express.Application, port: number = 3000) {
-  return app.listen(port, () => {
+  return app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
   });
 }
