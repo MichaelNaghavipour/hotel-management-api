@@ -21,7 +21,7 @@ export default defineConfig({
   workers: process.env.CI ? 2 : undefined, // Limit workers in CI for stability
   projects: [
     {
-      name: 'chrome',
+      name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
   ],
