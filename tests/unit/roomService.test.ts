@@ -1,5 +1,5 @@
 import { moveTraveller } from '../../src/services/roomService';
-import { rooms } from '../../src/db/inMemoryDb';
+import { rooms } from '../../src/config/inMemoryDb';
 
 describe('moveTraveller', () => {
   beforeEach(() => {
@@ -7,6 +7,8 @@ describe('moveTraveller', () => {
     rooms[0].travellerIds = ['t1', 't2']; // 1001
     rooms[1].travellerIds = ['t3'];       // 1002
     rooms[2].travellerIds = [];           // 1003
+    rooms[3].travellerIds = [];           // 1004
+    rooms[4].travellerIds = [];           // 1005
   });
 
   it('moves a traveller successfully', () => {

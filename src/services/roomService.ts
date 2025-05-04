@@ -1,5 +1,5 @@
 import { Room } from '../models/Room';
-import { rooms } from '../db/inMemoryDb';
+import { rooms } from '../config/inMemoryDb';
 
 /**
  * Moves a traveller from one room to another, with validation.

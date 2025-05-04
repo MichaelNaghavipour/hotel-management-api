@@ -12,8 +12,8 @@ test.describe('Health Check', () => {
 });
 
 test.describe('Room Occupancy API', () => {
-  test('GET /rooms?date=2024-06-01 returns correct rooms', async ({ request }) => {
-    const res = await request.get(`${BASE_URL}/rooms?date=2024-06-01`);
+  test('GET /rooms?date=2024-03-20 returns correct rooms', async ({ request }) => {
+    const res = await request.get(`${BASE_URL}/rooms?date=2024-03-20`);
     expect(res.status()).toBe(200);
     const rooms = await res.json();
     expect(rooms).toEqual([
@@ -21,8 +21,8 @@ test.describe('Room Occupancy API', () => {
     ]);
   });
 
-  test('GET /groups/A123B1/rooms returns correct rooms', async ({ request }) => {
-    const res = await request.get(`${BASE_URL}/groups/A123B1/rooms`);
+  test('GET /groups/12345A/rooms returns correct rooms', async ({ request }) => {
+    const res = await request.get(`${BASE_URL}/groups/12345A/rooms`);
     expect(res.status()).toBe(200);
     const rooms = await res.json();
     expect(rooms).toEqual([

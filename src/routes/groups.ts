@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { rooms, travellers, travelGroups } from '../db/inMemoryDb';
+import { rooms, travellers, travelGroups } from '../config/inMemoryDb';
 
 const router = Router();
 
