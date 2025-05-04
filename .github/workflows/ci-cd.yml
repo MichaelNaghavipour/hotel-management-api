@@ -7,46 +7,59 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-test:
+  unit-test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: lts/*
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build application
-      run: npm run build
-    
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps --force
-    
-    - name: Run unit tests
-      run: npm run test:unit
-    
-    - name: Run e2e tests
-      run: npm run test:e2e:ci
-    
-    - name: Upload test results
-      if: ${{ !cancelled() }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-results
-        path: |
-          jest-report/
-          playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Run unit tests
+        run: npm run test:unit
+      - name: Upload Jest test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: jest-report
+          path: jest-report/
+          retention-days: 30
+
+  e2e-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: unit-test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps --force
+      - name: Run e2e tests
+        run: npm run test:e2e:ci
+      - name: Upload Playwright test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   docker:
-    needs: build-and-test
+    needs: [unit-test, e2e-test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
