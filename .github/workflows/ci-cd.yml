@@ -48,21 +48,28 @@ jobs:
         run: npm run build
       - name: Install Playwright Browsers
         run: npx playwright install chromium --with-deps --force
-      - name: List dist contents before e2e
-        run: ls -l dist || echo "dist does not exist"
-      - name: Curl health endpoint before e2e
-        run: curl -v http://localhost:3000/health || true
-      - name: List node processes
-        run: ps aux | grep node || true
-      - name: Print server logs
+
+      - name: Start server in background
         run: |
-          cat /home/runner/work/hotel-management-api/hotel-management-api/dist/server.js || echo "No server log"
+          node dist/index.js &
+          echo $! > server.pid
+
+      - name: Wait for server to be ready
+        run: |
+          for i in {1..10}; do
+            curl -sf http://localhost:3000/health && echo "Server is up!" && break
+            echo "Waiting for server to start..."
+            sleep 2
+          done
+
       - name: Run e2e tests
         run: npm run test:e2e:ci
-      - name: List playwright-report after e2e
-        run: ls -l playwright-report || echo "playwright-report does not exist"
-      - name: Ensure playwright-report exists
-        run: mkdir -p playwright-report
+
+      - name: Stop server
+        if: always()
+        run: |
+          kill $(cat server.pid) || true
+
       - name: Upload Playwright test results
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
@@ -91,8 +98,3 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/room-occupancy-api:${{ github.sha }}
-      - name: Curl health endpoint
-        run: curl -v http://localhost:3000/health || true
-      - name: Run server manually for debug
-        run: node dist/index.js &
-        timeout-minutes: 1 
