@@ -48,8 +48,14 @@ jobs:
         run: npm run build
       - name: Install Playwright Browsers
         run: npx playwright install chromium --with-deps --force
+      - name: List dist contents before e2e
+        run: ls -l dist || echo "dist does not exist"
+      - name: Curl health endpoint before e2e
+        run: curl -v http://localhost:3000/health || true
       - name: Run e2e tests
         run: npm run test:e2e:ci
+      - name: List playwright-report after e2e
+        run: ls -l playwright-report || echo "playwright-report does not exist"
       - name: Ensure playwright-report exists
         run: mkdir -p playwright-report
       - name: Upload Playwright test results
