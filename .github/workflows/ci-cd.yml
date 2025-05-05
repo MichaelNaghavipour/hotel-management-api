@@ -79,6 +79,7 @@ jobs:
           retention-days: 30
 
   docker:
+    # Docker builds the app itself, so no need to prebuild dist
     needs: [unit-test, e2e-test]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
