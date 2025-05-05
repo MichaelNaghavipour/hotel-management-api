@@ -52,6 +52,11 @@ jobs:
         run: ls -l dist || echo "dist does not exist"
       - name: Curl health endpoint before e2e
         run: curl -v http://localhost:3000/health || true
+      - name: List node processes
+        run: ps aux | grep node || true
+      - name: Print server logs
+        run: |
+          cat /home/runner/work/hotel-management-api/hotel-management-api/dist/server.js || echo "No server log"
       - name: Run e2e tests
         run: npm run test:e2e:ci
       - name: List playwright-report after e2e
@@ -87,4 +92,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/room-occupancy-api:${{ github.sha }}
       - name: Curl health endpoint
-        run: curl -v http://localhost:3000/health || true 
+        run: curl -v http://localhost:3000/health || true
+      - name: Run server manually for debug
+        run: node dist/index.js &
+        timeout-minutes: 1 
