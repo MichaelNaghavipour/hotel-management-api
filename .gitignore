@@ -1,34 +1,17 @@
-# Tests Results
 /test-results/
-
-# Node.js dependencies
 node_modules/
-
-# Build output
 dist/
-
-# TypeScript
 *.tsbuildinfo
-
-# Logs
 logs/
 *.log
 npm-debug.log*
-
-# Environment variables
 .env
 .env.local
 .env.*.local
-
-# IDE files
 .vscode/
 .idea/
 *.swp
-
-# OS files
 .DS_Store
 Thumbs.db
-
-# Test and coverage reports
 /playwright-report/
 /jest-report/
